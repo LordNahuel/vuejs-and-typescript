@@ -1,0 +1,6 @@
+{
+    "ignore": [".git", "node_modules", "**/*.test.ts",  "**/*spec.ts"],
+    "watch": ["src"],
+    "exec": "npm start",
+    "ext": "ts"
+}
