@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import User, { IUser } from '../models/user';
 import { status } from '../config/constants';
 import logger from '../common/logger';
-import { Stats } from 'fs';
+import { stat, Stats } from 'fs';
 
 // TODO : implementar passport y jsonweb token. 
 export const getAll = async (req: Request, res: Response) => {
@@ -52,17 +52,33 @@ export const getById = async (req: Request, res: Response) => {
 export const update = async (req: Request, res: Response) => {
     try {
         const { _id } = req.params;
-        const user = User.findById(_id);
-
+        const user = await User.findById(_id);
+        
         if (!user) return res.status(status.BAD_REQUEST).json({ message: 'the user inserted doesnt exist' });
         if (!req.body.role || !req.body.name || !req.body.username || !req.body.email || !req.body.password) return res.status(status.BAD_REQUEST).json({ message: 'You must complete all fields' });
 
         const { role, name, username, email, password } = req.body;
-        await User.findByIdAndUpdate(_id, { role, name, username, email, password });
+    
+        await User.findOneAndUpdate({ _id: _id } , { role, name, username, email, password });
 
-        res.status(status.OK);
+        res.sendStatus(status.OK);
     } catch (error) {
         logger.error(`Cant update this user: ${error}`);
         throw error;
+    }
+}
+
+export const remove = async (req: Request, res: Response) => {
+    try {
+        const { _id } = req.params;
+        const user = await User.findById(_id);
+
+        if (!user) return res.status(status.BAD_REQUEST).json({ message: 'the user inserted doesnt exist' });
+        await User.findByIdAndRemove(_id);
+
+        res.sendStatus(status.OK); 
+    } catch (error) {
+        logger.error(`Cant delete this user: ${error}`);
+        throw error; 
     }
 }

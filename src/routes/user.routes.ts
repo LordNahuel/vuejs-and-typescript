@@ -8,8 +8,9 @@ router.route('/')
     .get(userController.getAll)
     .post(userController.save)
 
-router.route('/:id')
+router.route('/:_id')
     .get(userController.getById)
     .put(userController.update)
+    .delete(userController.remove)
 
 export default router; 
