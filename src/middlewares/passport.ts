@@ -22,4 +22,4 @@ export default new Strategy(ops, (payload, done) => {
         logger.error(`Strategy error: ${error}`);
         throw error;         
     }
-})
+});
