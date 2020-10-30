@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import User, { IUser } from '../models/user';
 import { status } from '../config/constants';
 import logger from '../common/logger';
-import { stat, Stats } from 'fs';
 
 // TODO : implementar passport y jsonweb token. 
 export const getAll = async (req: Request, res: Response) => {
