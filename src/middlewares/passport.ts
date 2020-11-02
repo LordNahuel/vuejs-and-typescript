@@ -11,7 +11,7 @@ const ops: StrategyOptions = {
 export default new Strategy(ops, (payload, done) => {
     try {
         const email = payload.email;
-        const user = User.find(email);
+        const user = User.findOne({email: email});
 
         if (user) {
             return done(null, user);

@@ -27,8 +27,7 @@ export const signin = async (req: Request, res: Response) => {
         if (!user) return res.status(status.BAD_REQUEST).json({ message: 'The user Doesnt exist' });
 
         const isMatch = await user.comparePassword(req.body.password);
-        console.log(user);
-        console.log(isMatch);
+    
         if (isMatch) return res.header({ token: createToken(user) }).sendStatus(status.OK);
 
         return res.status(status.BAD_REQUEST).json({ message: 'Email or password incorrect!' });
@@ -118,7 +117,7 @@ export const remove = async (req: Request, res: Response) => {
 
 // create token to validate all request to the API
 export const createToken = (user: IUser) => {
-    return jwt.sign({ id: user.id, email: user.email }, config.secret, {
+    return jwt.sign({ id: user._id, email: user.email }, config.secret, {
         expiresIn: '12h'
     });
 }
