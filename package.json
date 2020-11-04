@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon",
     "start": "ts-node src/index.ts",
-    "test": "nodemon --watch . --ext ts --exec \"mocha -r ts-node/register specs/**/*.spec.ts\""
+    "test": "nodemon --watch . --ext ts --exec \"mocha --timeout 10000 -r ts-node/register src/specs/**/*.spec.ts\""
   },
   "repository": {
     "type": "git",

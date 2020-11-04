@@ -7,6 +7,8 @@ import config from '../config/config';
  
 export const signup = async (req: Request, res: Response) => {
     try {
+        if (!req.body.name || !req.body.username || !req.body.email || !req.body.password) return res.status(status.BAD_REQUEST).json({ message: 'You must complete all fields' });
+        
         const user = await User.find({ email: req.body.email });
         if (!user) return res.status(status.BAD_REQUEST).json({ message: 'The user doesnt exist' });
 
