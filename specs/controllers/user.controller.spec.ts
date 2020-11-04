@@ -1,24 +1,22 @@
-import mocha from 'mocha';
-import sinon from 'sinon';
+import chai from 'chai';
 import { expect } from 'chai';
-import * as userController from '../../src/controllers/user.controller'; 
-import user from '../../src/models/user';
-import { Request, Response } from 'express'; 
-import User from '../../src/models/user';
+import chaiHttp from 'chai-http'; 
+import app from '../../src/app';
 
-// spy test
+// material: https://www.paradigmadigital.com/dev/testeo-api-rest-mocha-chai-http/
+// I told to chai that must to use chai http
+// Configure url to make requests.
+
+chai.use(chaiHttp);
+// TODO: Search some form to validate the user with jwt in test. 
 describe('User Controller Specs', () => {
-    it('Sinon spy implementation', () => {
-        const mySpy = sinon.spy(userController, "createToken");
-        const user = new User ({
-            _id: '5f9c5d9ba7a6663c5bc61979',
-            role: 'admin',
-            name: 'nahuel sarrode',
-            username: 'LordNahuel',
-            password: 'password123',
-            email: 'nahuelsarrode@gmail.com'
-        })
-        userController.createToken(user);
-        expect(mySpy.returnValues).to.be.true;
+    it('Signup method with correct information must return status 200', (done) => {
+        chai.request(app)
+            .post('/users')
+            .send({ name: 'Nahuel Sarrode', username: 'LordNahuel', email: 'nahuelsarrode@gmail.com', password: 'somepassword' })
+            .end(function(req, res) {
+                expect(res).to.have.status(200);
+                done();
+            })
     }); 
 });
