@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon",
     "start": "ts-node src/index.ts",
-    "test": "nodemon --watch . --ext ts --exec \"mocha --timeout 10000 -r ts-node/register src/specs/**/*.spec.ts\""
+    "test": "nodemon --watch dotenv/config . --ext ts --exec \"mocha --timeout 10000 -r ts-node/register src/specs/**/*.spec.ts\""
   },
   "repository": {
     "type": "git",
@@ -35,10 +35,11 @@
     "@types/sinon": "^9.0.8",
     "@types/supertest": "^2.0.10",
     "@types/winston": "^2.4.4",
-    "chai-http": "^4.3.0",
-    "sinon": "^9.2.1",
-    "mocha": "^8.2.0",
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "dotenv": "^8.2.0",
+    "mocha": "^8.2.0",
+    "sinon": "^9.2.1",
     "supertest": "^6.0.0",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.5"

@@ -5,7 +5,7 @@ import logger from '../common/logger';
 import jwt from 'jsonwebtoken';
 import config from '../config/config';
  
-export const signup = async (req: Request, res: Response) => {
+export const signup = async (req: any, res: any) => {
     try {
         if (!req.body.name || !req.body.username || !req.body.email || !req.body.password) return res.status(status.BAD_REQUEST).json({ message: 'You must complete all fields' });
         
