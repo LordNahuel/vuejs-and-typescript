@@ -3,7 +3,6 @@ import User, { IUser } from '../models/user';
 import { status } from '../config/constants';
 import logger from '../common/logger';
 import jwt from 'jsonwebtoken';
-import config from '../config/config';
  
 export const signup = async (req: any, res: any) => {
     try {
@@ -119,7 +118,7 @@ export const remove = async (req: Request, res: Response) => {
 
 // create token to validate all request to the API
 export const createToken = (user: IUser) => {
-    return jwt.sign({ id: user._id, email: user.email }, config.secret, {
+    return jwt.sign({ id: user._id, email: user.email }, process.env.SECRET_KEY || 'somesecretkey', {
         expiresIn: '12h'
     });
 }

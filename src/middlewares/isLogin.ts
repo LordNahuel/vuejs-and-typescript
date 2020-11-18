@@ -1,8 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken'; 
 import logger from '../common/logger'; 
 import { status } from '../config/constants'; 
-import config from '../config/config'; 
 import { IPayload } from '../interfaces/IPayload';
 
 const isLogin = (req: any, res: Response, next: NextFunction) => {
@@ -10,7 +9,7 @@ const isLogin = (req: any, res: Response, next: NextFunction) => {
     
     if (!token) return res.status(status.UNAUTHORIZED).json({ message: 'Access Denied!' });
 
-    const payload = jwt.verify(token, config.secret) as IPayload;
+    const payload = jwt.verify(token, process.env.SECRET_KEY || 'somesecretkey') as IPayload;
 
     req.currentUser = payload.id;
     

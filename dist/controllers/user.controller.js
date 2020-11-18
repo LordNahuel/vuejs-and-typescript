@@ -17,7 +17,6 @@ const user_1 = __importDefault(require("../models/user"));
 const constants_1 = require("../config/constants");
 const logger_1 = __importDefault(require("../common/logger"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const config_1 = __importDefault(require("../config/config"));
 exports.signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!req.body.name || !req.body.username || !req.body.email || !req.body.password)
@@ -124,7 +123,7 @@ exports.remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 // create token to validate all request to the API
 exports.createToken = (user) => {
-    return jsonwebtoken_1.default.sign({ id: user._id, email: user.email }, config_1.default.secret, {
+    return jsonwebtoken_1.default.sign({ id: user._id, email: user.email }, process.env.SECRET_KEY || 'somesecretkey', {
         expiresIn: '12h'
     });
 };

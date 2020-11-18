@@ -1,5 +1,4 @@
 import mongoose, { ConnectionOptions } from 'mongoose';
-import config from './config/config'; 
 
 const dboptions: ConnectionOptions = {
     useNewUrlParser: true, 
@@ -8,7 +7,7 @@ const dboptions: ConnectionOptions = {
     useFindAndModify: false
 }
 
-mongoose.connect(config.DB.URI, dboptions);
+mongoose.connect(process.env.MONGO_URI!, dboptions);
 const connection = mongoose.connection; 
 
 connection.once('open', () => {

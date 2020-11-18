@@ -7,3 +7,4 @@ const app_1 = __importDefault(require("./app"));
 require("./database");
 app_1.default.listen(app_1.default.get('port'));
 console.log("Server running on port", app_1.default.get('port'));
+console.log("Server running on mode", process.env.NODE_ENV);
