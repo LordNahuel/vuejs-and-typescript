@@ -1,6 +1,6 @@
-if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config();
-}
+if (process.env.NODE_ENV === 'testing') require('custom-env').env('testing');
+if (process.env.NODE_ENV === 'production') require('custom-env').env('production');
+if (process.env.NODE_ENV === 'development') require('custom-env').env('development');
 
 import express from 'express'; 
 import morgan from 'morgan'; 
@@ -16,7 +16,7 @@ import userRouter from './routes/user.routes';
 import authRouter from './routes/auth.routes'; 
 
 // settings
-app.set('port', process.env.PORT || 3000); 
+app.set('port', process.env.PORT); 
 
 // middlewares 
 app.use(morgan('dev'));
