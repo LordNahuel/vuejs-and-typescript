@@ -1,51 +1,81 @@
-import { expect } from 'chai';
+import chai from 'chai';
 import User, { IUser } from '../../models/user';
+import sinon, { spy } from 'sinon';
 
-describe('Create User Test', () => {
-    it('Make an user without id and role cause there arent required fields', () => {
-        const user = {
-            name: 'nahuel sarrode',
-            username: 'LordNahuel',
-            password: 'password123',
-            email: 'nahuelsarrode@gmail.com'
-        };
+const expect = chai.expect;
 
-        expect(user).to.have.all.keys('name', 'username', 'password', 'email');
+describe('User Model Specs', () => {
+    describe('Create a User without default values', () => {
+        const user = new User({
+            name: 'someName',
+            username: 'someUserName',
+            email: 'someEmail@mail.com',
+            password: 'somePassword'
+        });
+
+        it('Role and id must will created', () => {
+            expect(user.role).to.exist;
+            expect(user._id).to.be.exist;
+        });
+
+        it('Role and id are different of undefined', () => {
+            expect(user.role).to.not.be.equal('undefined');
+            expect(user.id).to.not.be.equal('undefined');
+        });
+
+        it('User must have all fields', () => {
+            expect(user).to.have.property('_id');
+            expect(user).to.have.property('role');
+            expect(user).to.have.property('name');
+            expect(user).to.have.property('email');
+            expect(user).to.have.property('username');
+            expect(user).to.have.property('password');
+        });
     });
 
-    it('Make an objet without role, the default role must be user', () => {
-        const user = new User({
-            name: 'nahuel sarrode',
-            username: 'LordNahuel',
-            password: 'password123',
-            email: 'nahuelsarrode@gmail.com'
+    describe('Create a user with value from role', () => {
+        describe('with admin role defined', () => {
+            const user = new User({
+                name: 'someName',
+                role: 'admin',
+                username: 'someUserName',
+                email: 'someEmail@mail.com',
+                password: 'somePassword'
+            });
+
+            it('User role it will be equals to admin', () => {
+                expect(user.role).to.be.equal('admin');
+            });
         })
-        
-        expect(user.role).to.be.equals('user');
-    }); 
 
-    it('Create an user without id, its must be created automatically', () => {
-        const user = new User({
-            role: 'admin',
-            name: 'nahuel sarrode',
-            username: 'LordNahuel',
-            password: 'password123',
-            email: 'nahuelsarrode@gmail.com'
-        }); 
+        describe('with user role defined', () => {
+            const user = new User({
+                name: 'someName',
+                role: 'user',
+                username: 'someUserName',
+                email: 'someEmail@mail.com',
+                password: 'somePassword'
+            });
 
-        expect(user._id).to.not.be.equals('undefined');
+            it('User role it will be equals to admin', () => {
+                expect(user.role).to.be.equal('user');
+            });
+        })
     });
 
-    it('Make an user with all required and not required fields', () => {
-        const user = {
-            _id: '5f9c5d9ba7a6663c5bc61979',
-            role: 'admin',
-            name: 'nahuel sarrode',
-            username: 'LordNahuel',
-            password: 'password123',
-            email: 'nahuelsarrode@gmail.com'
-        };
+    describe('Spy user.save method', () => {
+        const user = new User({
+            name: 'someName',
+            role: 'user',
+            username: 'someUserName',
+            email: 'someEmail@mail.com',
+            password: 'somePassword'
+        });
 
-        expect(user).to.have.all.keys('_id', 'role', 'name', 'username', 'password', 'email');
+        it('User password most be encripted before save', () => {
+            const nextSpy = sinon.spy();
+            user.save(nextSpy);
+            expect(nextSpy);
+        });
     });
 }); 
