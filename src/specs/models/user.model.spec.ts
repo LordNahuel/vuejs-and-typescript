@@ -1,10 +1,10 @@
 import chai from 'chai';
 import User, { IUser } from '../../models/user';
-import sinon, { spy } from 'sinon';
+import sinon, { mock, spy, verify } from 'sinon';
 
 const expect = chai.expect;
 
-describe('User Model Specs', () => {
+describe.skip('User Model Specs', () => {
     describe('Create a User without default values', () => {
         const user = new User({
             name: 'someName',
@@ -63,19 +63,57 @@ describe('User Model Specs', () => {
         })
     });
 
-    describe('Spy user.save method', () => {
-        const user = new User({
-            name: 'someName',
-            role: 'user',
-            username: 'someUserName',
-            email: 'someEmail@mail.com',
-            password: 'somePassword'
+    describe('Create a user without required fields', () => {
+        it('User without name dont be saved', () => {
+            const user = new User({
+                role: 'user',
+                email: 'someemail@gmail.com',
+                username: 'someUserName',
+                password: 'somePassword'
+            });
+
+            user.validate(function (err) {
+                expect(err).to.exist;
+            })
         });
 
-        it('User password most be encripted before save', () => {
-            const nextSpy = sinon.spy();
-            user.save(nextSpy);
-            expect(nextSpy);
+        it('User without email dont be saved', () => {
+            const user = new User({
+                name: 'somename',
+                role: 'user',
+                username: 'someUserName',
+                password: 'somePassword'
+            });
+
+            user.validate((err) => {
+                expect(err).to.exist;
+            })
+        });
+
+        it('User without username dont be saved', () => {
+            const user = new User({
+                name: 'somename',
+                role: 'user',
+                email: 'someemail@gmail.com',
+                password: 'somePassword'
+            });
+
+            user.validate((err) => {
+                expect(err).to.exist;
+            })
+        });
+
+        it('User without password dont be saved', () => {
+            const user = new User({
+                name: 'somename',
+                role: 'user',
+                email: 'someemail@gmail.com',
+                username: 'someusername',
+            });
+
+            user.validate((err) => {
+                expect(err).to.exist;
+            })
         });
     });
 }); 

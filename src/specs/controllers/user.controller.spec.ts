@@ -1,29 +1,32 @@
-import chai,{ expect } from 'chai';
-import sinon from 'sinon'
+import chai, { expect } from 'chai'; 
+import sinon, { spy } from 'sinon'; 
 import * as userController from '../../controllers/user.controller';
+import user from '../../models/user';
 
-// TODO: Search some form to validate the user with jwt in test. 
-describe.skip('User Controller', () => {
-    describe('signup method', () => {
-        const req = {
-            body: {
-                role: "user",
-                name: "someName",
-                username: "someUsername",
-                email: "someEmail",
-                password: "somePassword"
-            }
-        }
+describe('Usercontroller specs', () => {
+    describe('Spying a signup method', () => {
+        it('Spy in createToken with anonimus function', () => {
+            const req = {
+                body: {
+                    name: 'somename',
+                    username: 'someusername', 
+                    email: 'someemail@gmail.com',
+                    password: 'somepassword',
+                    role: 'user'
+                }
+            }; 
 
-        beforeEach(function () {
             const res = {
-                json: sinon.spy(),
-                status: sinon.stub().returns({ end: sinon.spy })
-            }    
-        })
+                header: {
+                    createToken: function() {
+                        return 'token'
+                    }
+                }
+            }; 
 
-        it('Must retorn a token', () => {
-            userController
-        })
+            const spy = sinon.spy(res.header, 'createToken'); 
+            res.header.createToken();
+            expect(spy.called).to.be.true; 
+        });
     })
 });
