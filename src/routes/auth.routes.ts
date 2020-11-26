@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import * as userController from '../controllers/user.controller';
+import * as authController from '../controllers/auth.controller';
 import user from '../models/user';
 
 const router = Router();
 
 router.route('/signup')
-    .post(userController.signup)
+    .post(authController.signup)
 
 router.route('/login')
-    .post(userController.signin)
+    .post(authController.signin)
 
 export default router; 

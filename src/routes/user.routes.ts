@@ -7,12 +7,12 @@ import isLogin from '../middlewares/isLogin';
 const router = Router();
 
 router.route('/')
-    .get(userController.getAll)
-    .post(userController.save)
+    .get(passport.authenticate('jwt', { session: false }), isLogin, isAdmin, userController.getAll)
+    .post(passport.authenticate('jwt', { session: false }), userController.save)
 
 router.route('/:_id')
-    .get(userController.getById)
-    .put(userController.update)
-    .delete(userController.remove)
+    .get(passport.authenticate('jwt', { session: false }), userController.getById)
+    .put(passport.authenticate('jwt', { session: false }), userController.update)
+    .delete(passport.authenticate('jwt', { session: false }), userController.remove)
 
 export default router; 

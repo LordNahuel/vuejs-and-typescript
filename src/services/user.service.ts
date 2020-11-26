@@ -1,5 +1,4 @@
 import User, { IUser } from '../models/user';
-import { status } from '../config/constants';
 import logger from '../common/logger';
 
 // TODO: complete user routers again after complete the service. 
